@@ -1,7 +1,5 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TEATRO.Models;
-
 
 namespace TEATRO.Data
 {
@@ -11,14 +9,15 @@ namespace TEATRO.Data
         {
         }
 
-        public DbSet<TEATRO.Models.Usuario> Usuarios { get; set; } = default!;
-        public DbSet<TEATRO.Models.Rol> Roles { get; set; } = default!;
-        public DbSet<TEATRO.Models.Teatro> Teatros { get; set; } = default!;
-        public DbSet<TEATRO.Models.Obra> Obras { get; set; } = default!;
-        public DbSet<ProyectoProgramado_1.Models.Reserva> Reservas { get; set; } = default!;
-        public DbSet<ProyectoProgramado_1.Models.Pago> Pagos { get; set; } = default!;
+        public DbSet<Usuario> Usuarios { get; set; } = default!;
+        public DbSet<Rol> Roles { get; set; } = default!;
+        public DbSet<Teatro> Teatros { get; set; } = default!;
+        public DbSet<Obra> Obras { get; set; } = default!;
+        public DbSet<Reserva> Reservas { get; set; } = default!;
+        public DbSet<Pago> Pagos { get; set; } = default!;
 
-        public DbSet<Producto> Productos { get; set; }  // 🔹 Agregado para gestionar productos
+        // 🔹 Agregando las nuevas tablas
+        public DbSet<Aciento> Acientos { get; set; } = default!;
+        public DbSet<Producto> Productos { get; set; } = default!;
     }
 }
-
