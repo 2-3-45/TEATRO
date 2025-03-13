@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Panel de Administración";
+}
+
+<h1 class="text-center text-light">👨‍💼 Panel de Administración</h1>
+<p class="text-center text-light">Aquí puedes gestionar los usuarios, ver reportes y más.</p>
+
+<div class="d-flex justify-content-center gap-3 mt-4">
+    <a class="btn btn-warning" asp-action="GestionUsuarios">👥 Gestión de Usuarios</a>
+    <a class="btn btn-primary" asp-action="GestionObras">🎭 Gestión de Obras</a>
+    <a class="btn btn-success" asp-action="GestionProductos">🛒 Gestión de Productos</a>
+    <a class="btn btn-info" asp-action="GestionTeatros">🏛️ Gestión de Teatros</a>
+</div>
+
+<div class="text-center mt-4">
+    <a class="btn btn-danger" asp-action="CerrarSesion">🚪 Cerrar Sesión</a>
+</div>

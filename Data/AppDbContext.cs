@@ -17,7 +17,7 @@ namespace TEATRO.Data
         public DbSet<Pago> Pagos { get; set; } = default!;
 
         // 🔹 Agregando las nuevas tablas
-        public DbSet<Aciento> Acientos { get; set; } = default!;
+        public DbSet<Aciento> Aciento { get; set; } = default!;
         public DbSet<Producto> Productos { get; set; } = default!;
     }
 }
