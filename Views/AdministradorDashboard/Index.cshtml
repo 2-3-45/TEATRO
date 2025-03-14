@@ -5,6 +5,7 @@
 <h1 class="text-center text-light">👨‍💼 Panel de Administración</h1>
 <p class="text-center text-light">Aquí puedes gestionar los usuarios, ver reportes y más.</p>
 
+<!-- 🔹 Primera fila de botones -->
 <div class="d-flex justify-content-center gap-3 mt-4">
     <a class="btn btn-warning" asp-action="GestionUsuarios">👥 Gestión de Usuarios</a>
     <a class="btn btn-primary" asp-action="GestionObras">🎭 Gestión de Obras</a>
@@ -12,6 +13,21 @@
     <a class="btn btn-info" asp-action="GestionTeatros">🏛️ Gestión de Teatros</a>
 </div>
 
+<!-- 🔹 Segunda fila de botones -->
+<div class="d-flex justify-content-center gap-3 mt-3">
+    <a class="btn btn-purple text-light" style="background-color: #6f42c1;" asp-action="GestionAsientos">🪑 Gestión de Asientos</a>
+    <a class="btn btn-teal text-light" style="background-color: #20c997;" asp-action="GestionReservas">📋 Gestión de Reservas</a>
+    <a class="btn btn-dark text-light" asp-action="GestionRoles">🔐 Gestión de Roles</a>
+</div>
+
+<!-- 🔹 Tercera fila de botones con Gestión de Pagos -->
+<div class="d-flex justify-content-center gap-3 mt-3">
+    <a class="btn btn-outline-light" asp-action="GestionPagos" style="border-color: #ffc107; color: #ffc107;">
+        💰 Gestión de Pagos
+    </a>
+</div>
+
+<!-- 🔹 Botón para cerrar sesión -->
 <div class="text-center mt-4">
     <a class="btn btn-danger" asp-action="CerrarSesion">🚪 Cerrar Sesión</a>
 </div>

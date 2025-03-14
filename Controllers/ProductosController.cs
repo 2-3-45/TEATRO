@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using TEATRO.Data;
 using TEATRO.Models;
 
-namespace TEATRO.Controllers
+namespace ProyectoProgramado_1.Controllers
 {
+    [Authorize(Roles = "Administrador")] // 🔒 Permite acceso solo a administradores
     public class ProductosController : Controller
     {
         private readonly AppDbContext _context;
@@ -19,39 +20,31 @@ namespace TEATRO.Controllers
             _context = context;
         }
 
-        // GET: Productoes
+        // 🔹 Listar Productos
         public async Task<IActionResult> Index()
         {
             return View(await _context.Productos.ToListAsync());
         }
 
-        // GET: Productoes/Details/5
+        // 🔹 Ver Detalles del Producto
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var producto = await _context.Productos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
+            var producto = await _context.Productos.FirstOrDefaultAsync(m => m.Id == id);
+            if (producto == null) return NotFound();
 
             return View(producto);
         }
 
-        // GET: Productoes/Create
+        // 🔹 Crear Producto - Vista GET
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Productoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // 🔹 Crear Producto - Vista POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Descripcion,Precio,Imagen,Estado")] Producto producto)
@@ -60,38 +53,30 @@ namespace TEATRO.Controllers
             {
                 _context.Add(producto);
                 await _context.SaveChangesAsync();
+                TempData["Mensaje"] = "✅ Producto agregado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
+            TempData["Error"] = "❌ Error al crear el producto.";
             return View(producto);
         }
 
-        // GET: Productoes/Edit/5
+        // 🔹 Editar Producto - Vista GET
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var producto = await _context.Productos.FindAsync(id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
+            if (producto == null) return NotFound();
+
             return View(producto);
         }
 
-        // POST: Productoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // 🔹 Editar Producto - Vista POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion,Precio,Imagen,Estado")] Producto producto)
         {
-            if (id != producto.Id)
-            {
-                return NotFound();
-            }
+            if (id != producto.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -99,6 +84,7 @@ namespace TEATRO.Controllers
                 {
                     _context.Update(producto);
                     await _context.SaveChangesAsync();
+                    TempData["Mensaje"] = "✅ Producto editado correctamente.";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -106,35 +92,26 @@ namespace TEATRO.Controllers
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
+            TempData["Error"] = "❌ Error al editar el producto.";
             return View(producto);
         }
 
-        // GET: Productoes/Delete/5
+        // 🔹 Eliminar Producto - Vista GET
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var producto = await _context.Productos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
+            var producto = await _context.Productos.FirstOrDefaultAsync(m => m.Id == id);
+            if (producto == null) return NotFound();
 
             return View(producto);
         }
 
-        // POST: Productoes/Delete/5
+        // 🔹 Eliminar Producto - Confirmación POST
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -143,12 +120,18 @@ namespace TEATRO.Controllers
             if (producto != null)
             {
                 _context.Productos.Remove(producto);
+                await _context.SaveChangesAsync();
+                TempData["Mensaje"] = "✅ Producto eliminado correctamente.";
+            }
+            else
+            {
+                TempData["Error"] = "❌ Error al eliminar el producto.";
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        // 🔹 Verifica si el producto existe
         private bool ProductoExists(int id)
         {
             return _context.Productos.Any(e => e.Id == id);

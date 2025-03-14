@@ -1,0 +1,28 @@
+﻿@model TEATRO.Models.RestablecerContraseñaViewModel
+
+@{
+    ViewData["Title"] = "Restablecer Contraseña";
+}
+
+<h1>Restablecer Contraseña</h1>
+
+<form asp-action="RestablecerContraseña" method="post">
+    <input type="hidden" asp-for="Token" />
+
+    <div class="form-group">
+        <label asp-for="NuevaContraseña" class="control-label"></label>
+        <input asp-for="NuevaContraseña" type="password" class="form-control" required />
+        <span asp-validation-for="NuevaContraseña" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ConfirmarContraseña" class="control-label"></label>
+        <input asp-for="ConfirmarContraseña" type="password" class="form-control" required />
+        <span asp-validation-for="ConfirmarContraseña" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-3">
+        <button type="submit" class="btn btn-primary">Restablecer Contraseña</button>
+        <a asp-action="Login" class="btn btn-secondary">Volver</a>
+    </div>
+</form>

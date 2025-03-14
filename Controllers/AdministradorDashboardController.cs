@@ -17,6 +17,19 @@ namespace TEATRO.Controllers
             return RedirectToAction("Index", "Obras");
         }
 
+
+
+        // ✔️ Agregado: Mantenimiento de Pagos
+        public IActionResult GestionPagos()
+        {
+            return RedirectToAction("Index", "Pagos");
+        }
+
+
+
+
+
+
         // ✔️ Agregado: Mantenimiento de Productos
         public IActionResult GestionProductos()
         {
@@ -27,6 +40,24 @@ namespace TEATRO.Controllers
         public IActionResult GestionTeatros()
         {
             return RedirectToAction("Index", "Teatros");
+        }
+
+        // ✔️ Agregado: Mantenimiento de Asientos
+        public IActionResult GestionAsientos()
+        {
+            return RedirectToAction("Index", "Acientos");
+        }
+
+        // ✔️ Agregado: Mantenimiento de Reservas
+        public IActionResult GestionReservas()
+        {
+            return RedirectToAction("Index", "Reservas");
+        }
+
+        // ✔️ Agregado: Mantenimiento de Roles
+        public IActionResult GestionRoles()
+        {
+            return RedirectToAction("Index", "Roles");
         }
 
         public IActionResult Reportes()

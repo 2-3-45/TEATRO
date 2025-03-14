@@ -1,6 +1,8 @@
 ﻿
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; // <-- Agrega esta librería
+
 namespace TEATRO.Models
 {
     public class Pago
@@ -12,6 +14,7 @@ namespace TEATRO.Models
         public int ReservaId { get; set; }
 
         [DisplayName("Monto Total")]
+        [Column(TypeName = "decimal(18, 2)")] // 🔹 Definición explícita de precisión
         public decimal Monto { get; set; }
 
         [DisplayName("Método de Pago")]
@@ -19,11 +22,6 @@ namespace TEATRO.Models
 
         [DisplayName("Fecha de Pago")]
         public DateTime Fecha { get; set; }
-
-
-
-
-
 
         // 🔴 Este constructor vacío es NECESARIO
         public Pago() { }
@@ -37,5 +35,4 @@ namespace TEATRO.Models
             Fecha = fecha;
         }
     }
-
 }

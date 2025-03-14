@@ -1,59 +1,63 @@
 ﻿@model IEnumerable<TEATRO.Models.Usuario>
+@using System.Security.Claims
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Create";
+    var userRole = User.FindFirst(ClaimTypes.Role)?.Value;  // Obtiene el rol del usuario autenticado
 }
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Correo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RolId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TokenRecuperacion)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Correo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RolId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TokenRecuperacion)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@if (userRole == null)  // Si no está autenticado, mostrar opciones de login y registro
+{
+    <div>
+        <h4>Iniciar sesión o crear una cuenta</h4>
+
+        <!-- Botón para iniciar sesión -->
+        <a asp-controller="Usuarios" asp-action="Login" class="btn btn-success">Iniciar Sesión</a>
+
+        <!-- Botón para crear un nuevo usuario -->
+        <a asp-controller="Usuarios" asp-action="Create" class="btn btn-primary">Crear Nuevo Usuario</a>
+    </div>
 }
-    </tbody>
-</table>
+else if (userRole == "Comprador")  // Si es un comprador, solo puede crear un nuevo usuario
+{
+    <p>Bienvenido, eres un Comprador.</p>
+    <a asp-controller="Usuarios" asp-action="Create" class="btn btn-primary">Crear Nuevo Usuario</a>
+}
+else if (userRole == "Administrador")  // Si es administrador, puede ver la lista de usuarios
+{
+    <h3>Lista de Usuarios</h3>
+
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+                <th>@Html.DisplayNameFor(model => model.Correo)</th>
+                <th>@Html.DisplayNameFor(model => model.RolId)</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Correo)</td>
+                    <td>@(item.RolId == 1 ? "Administrador" : "Comprador")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Editar</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detalles</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning text-center mt-4">
+        <strong>Información:</strong> Solo el administrador puede ver la lista de usuarios y realizar acciones de edición o eliminación.
+    </div>
+}

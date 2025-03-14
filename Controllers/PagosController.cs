@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using TEATRO.Data;
 using TEATRO.Models;
 
-namespace TEATRO.Controllers
+namespace ProyectoProgramado_1.Controllers
 {
     public class PagosController : Controller
     {
@@ -19,13 +20,13 @@ namespace TEATRO.Controllers
             _context = context;
         }
 
-        // GET: Pagoes
+        // GET: Pagos
         public async Task<IActionResult> Index()
         {
             return View(await _context.Pagos.ToListAsync());
         }
 
-        // GET: Pagoes/Details/5
+        // GET: Pagos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,13 +44,13 @@ namespace TEATRO.Controllers
             return View(pago);
         }
 
-        // GET: Pagoes/Create
+        // GET: Pagos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Pagoes/Create
+        // POST: Pagos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -65,7 +66,7 @@ namespace TEATRO.Controllers
             return View(pago);
         }
 
-        // GET: Pagoes/Edit/5
+        // GET: Pagos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,7 +82,7 @@ namespace TEATRO.Controllers
             return View(pago);
         }
 
-        // POST: Pagoes/Edit/5
+        // POST: Pagos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -116,7 +117,7 @@ namespace TEATRO.Controllers
             return View(pago);
         }
 
-        // GET: Pagoes/Delete/5
+        // GET: Pagos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +135,7 @@ namespace TEATRO.Controllers
             return View(pago);
         }
 
-        // POST: Pagoes/Delete/5
+        // POST: Pagos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
