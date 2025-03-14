@@ -25,20 +25,35 @@ namespace ProyectoProgramado_1.Controllers
             return View(await _context.Reservas.ToListAsync());
         }
 
+        // 🔹 NUEVO: Método para mostrar las reservas del usuario logueado
+        public async Task<IActionResult> MisReservas()
+        {
+            // ✔️ Cambio de Context por HttpContext
+            int usuarioId = Convert.ToInt32(HttpContext.Session.GetString("UsuarioId"));
+
+            var reservas = await (from r in _context.Reservas
+                                  join o in _context.Obras on r.ObraId equals o.Id
+                                  where r.UsuarioId == usuarioId
+                                  select new
+                                  {
+                                      r.Id,
+                                      r.Fecha,
+                                      ObraTitulo = o.Titulo
+                                  }).ToListAsync();
+
+            ViewBag.Reservas = reservas;
+
+            return View();
+        }
+
+
         // GET: Reservas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var reserva = await _context.Reservas
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (reserva == null)
-            {
-                return NotFound();
-            }
+            var reserva = await _context.Reservas.FirstOrDefaultAsync(m => m.Id == id);
+            if (reserva == null) return NotFound();
 
             return View(reserva);
         }
@@ -50,8 +65,6 @@ namespace ProyectoProgramado_1.Controllers
         }
 
         // POST: Reservas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,UsuarioId,ObraId,Fecha")] Reserva reserva)
@@ -68,30 +81,20 @@ namespace ProyectoProgramado_1.Controllers
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var reserva = await _context.Reservas.FindAsync(id);
-            if (reserva == null)
-            {
-                return NotFound();
-            }
+            if (reserva == null) return NotFound();
+
             return View(reserva);
         }
 
         // POST: Reservas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,UsuarioId,ObraId,Fecha")] Reserva reserva)
         {
-            if (id != reserva.Id)
-            {
-                return NotFound();
-            }
+            if (id != reserva.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -102,14 +105,8 @@ namespace ProyectoProgramado_1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReservaExists(reserva.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!ReservaExists(reserva.Id)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -119,17 +116,10 @@ namespace ProyectoProgramado_1.Controllers
         // GET: Reservas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var reserva = await _context.Reservas
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (reserva == null)
-            {
-                return NotFound();
-            }
+            var reserva = await _context.Reservas.FirstOrDefaultAsync(m => m.Id == id);
+            if (reserva == null) return NotFound();
 
             return View(reserva);
         }

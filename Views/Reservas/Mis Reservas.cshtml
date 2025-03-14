@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Mis Reservas";
+}
+
+<h1 class="text-center text-light">📋 Mis Reservas</h1>
+
+<table class="table table-striped table-hover text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>Obra</th>
+            <th>Fecha de Reserva</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reserva in ViewBag.Reservas)
+        {
+            <tr>
+                <td>@reserva.ObraTitulo</td>
+                <td>@Convert.ToDateTime(reserva.Fecha).ToShortDateString()</td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@reserva.Id">🔍 Detalles</a>
+                    <a class="btn btn-danger btn-sm" asp-action="Cancel" asp-route-id="@reserva.Id">❌ Cancelar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
