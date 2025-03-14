@@ -1,60 +1,61 @@
-﻿@model TEATRO.Models.Usuario
+﻿@model TEATRO.Models.LoginViewModel
 
 @{
-    ViewData["Title"] = "Crear Usuario";
+    ViewData["Title"] = "Iniciar Sesión";
 }
 
-<h1>Crear Usuario</h1>
+<h1>Iniciar Sesión</h1>
 
-<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" method="post">
+        <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <!-- Campo de nombre -->
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" placeholder="Ingrese el nombre completo" />
+                <input asp-for="Nombre" class="form-control" placeholder="Ingrese su nombre completo" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
 
-            <!-- Campo de correo -->
             <div class="form-group">
                 <label asp-for="Correo" class="control-label"></label>
-                <input asp-for="Correo" class="form-control" placeholder="Ingrese el correo electrónico" />
+                <input asp-for="Correo" class="form-control" placeholder="Ingrese su correo electrónico" />
                 <span asp-validation-for="Correo" class="text-danger"></span>
             </div>
 
-            <!-- Campo de contraseña -->
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" type="password" class="form-control" placeholder="Ingrese su contraseña" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
-            <!-- Captcha Dinámico -->
+            <!-- 🔹 Captcha Dinámico -->
             <div class="form-group">
-                <label class="control-label">Captcha</label>
+                <label asp-for="CaptchaCode" class="control-label"></label>
                 <div class="d-flex align-items-center">
                     <img id="captchaImage" src="@Url.Action("GenerarCaptcha", "Usuarios")" alt="Captcha" class="me-2" />
                     <button type="button" class="btn btn-outline-secondary" onclick="RecargarCaptcha()">🔄</button>
                 </div>
-                <input type="text" name="CaptchaCode" class="form-control mt-2" placeholder="Ingrese el código del captcha" />
+                <input asp-for="CaptchaCode" class="form-control mt-2" placeholder="Ingrese el captcha" />
+                <span asp-validation-for="CaptchaCode" class="text-danger"></span>
             </div>
 
-            <!-- Botones -->
             <div class="form-group mt-3">
-                <input type="submit" value="Crear" class="btn btn-primary" />
+                <input type="submit" value="Iniciar Sesión" class="btn btn-success" />
                 <a asp-action="Index" class="btn btn-secondary">Volver</a>
             </div>
         </form>
     </div>
 </div>
 
+<p>
+    <a asp-action="RecuperarContraseña">¿Olvidó su contraseña?</a>
+</p>
+
+
 @section Scripts {
     <script>
-        // Función para recargar el captcha
+        // 🔄 Función para recargar el captcha
         function RecargarCaptcha() {
             document.getElementById("captchaImage").src = '@Url.Action("GenerarCaptcha", "Usuarios")' + '?' + new Date().getTime();
         }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ProyectoProgramado_1</title>
+    <title>@ViewData["Title"] - TEATRO</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/Bootmin.css" asp-append-version="true" />
@@ -36,11 +36,31 @@
                             <a class="nav-link text-light" asp-controller="" asp-action="Index">Cartelera</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="" asp-action="Index">Reservar</a>
+                            <a class="nav-link text-light" asp-controller="" asp-action="Index">Reservas</a>
                         </li>
+
+
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="" asp-action="Index">Pago</a>
+                            <a class="nav-link text-light" asp-controller="" asp-action="Index">Acientos</a>
                         </li>
+
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-controller="" asp-action="Index">Pagos</a>
+                        </li>
+
+
+
+                      
+                     
+
+
+
+
+
+
 
                         <!-- 🔒 Enlaces exclusivos para el Administrador -->
                         @if (Context.Session.GetString("RolId") == "1")
@@ -67,6 +87,19 @@
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-controller="Pagos" asp-action="Index">Pagos</a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Acientos" asp-action="Index">Acientos</a>
+                            </li>
+
+
+
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="" asp-action="Index">Cerrar sesión</a>
+                            </li>
+
+
+
 
 
                         }

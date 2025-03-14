@@ -1,53 +1,65 @@
 ﻿@model IEnumerable<TEATRO.Models.Pago>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Gestión de Pagos";
 }
 
-<h1>Index</h1>
+<h1 class="text-center text-light">💰 Gestión de Pagos</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ReservaId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Monto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Metodo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fecha)
-            </th>
-            <th></th>
+<!-- 🔙 Botón para volver al Panel de Administración -->
+<div class="text-start mb-3">
+    <a asp-controller="AdministradorDashboard" asp-action="Index" class="btn btn-secondary">
+        🔙 Volver al Panel de Administración
+    </a>
+</div>
+
+<!-- ➕ Botón para agregar nuevo pago -->
+<div class="text-end mb-3">
+    <a asp-action="Create" class="btn btn-success">
+        ➕ Crear Nuevo Pago
+    </a>
+</div>
+
+<!-- Tabla de pagos -->
+<table class="table table-dark table-striped table-hover shadow rounded-3">
+    <thead class="thead-light">
+        <tr class="text-center">
+            <th>@Html.DisplayNameFor(model => model.ReservaId)</th>
+            <th>@Html.DisplayNameFor(model => model.Monto)</th>
+            <th>@Html.DisplayNameFor(model => model.Metodo)</th>
+            <th>@Html.DisplayNameFor(model => model.Fecha)</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReservaId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Monto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Metodo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr class="text-center">
+                <td>@Html.DisplayFor(modelItem => item.ReservaId)</td>
+                <td>💲 @Html.DisplayFor(modelItem => item.Monto)</td>
+                <td>
+                    @if (item.Metodo == "Tarjeta")
+                    {
+                        <span class="badge bg-primary">💳 Tarjeta</span>
+                    }
+                    else if (item.Metodo == "Efectivo")
+                    {
+                        <span class="badge bg-success">💵 Efectivo</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning">💰 Otro</span>
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">✏️ Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">🔍 Detalles</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">🗑️ Eliminar</a>
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TEATRO.Data;
 using TEATRO.Models;
 
-namespace TEATRO.Controllers
+namespace ProyectoProgramado_1.Controllers
 {
     public class ObrasController : Controller
     {
@@ -29,18 +29,10 @@ namespace TEATRO.Controllers
         // GET: Obras/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var obra = await _context.Obras
-                .Include(o => o.Teatro)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (obra == null)
-            {
-                return NotFound();
-            }
+            var obra = await _context.Obras.Include(o => o.Teatro).FirstOrDefaultAsync(m => m.Id == id);
+            if (obra == null) return NotFound();
 
             return View(obra);
         }
@@ -48,55 +40,56 @@ namespace TEATRO.Controllers
         // GET: Obras/Create
         public IActionResult Create()
         {
-            ViewData["TeatroId"] = new SelectList(_context.Teatros, "Id", "Id");
+            ViewData["TeatroId"] = new SelectList(_context.Teatros, "Id", "Nombre");
             return View();
         }
 
         // POST: Obras/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Titulo,Descripcion,TeatroId")] Obra obra)
+        public async Task<IActionResult> Create([Bind("Titulo,Descripcion,TeatroId")] Obra obra)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // ✅ Cambio en la validación para corregir el flujo
             {
-                _context.Add(obra);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(obra);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ViewData["Error"] = $"Ocurrió un error al guardar: {ex.Message}";
+                }
             }
-            ViewData["TeatroId"] = new SelectList(_context.Teatros, "Id", "Id", obra.TeatroId);
+            else
+            {
+                ViewData["Error"] = "Error en la validación del modelo.";
+            }
+
+            ViewData["TeatroId"] = new SelectList(_context.Teatros, "Id", "Nombre", obra.TeatroId);
             return View(obra);
         }
+
 
         // GET: Obras/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var obra = await _context.Obras.FindAsync(id);
-            if (obra == null)
-            {
-                return NotFound();
-            }
-            ViewData["TeatroId"] = new SelectList(_context.Teatros, "Id", "Id", obra.TeatroId);
+            if (obra == null) return NotFound();
+
+            ViewData["TeatroId"] = new SelectList(_context.Teatros, "Id", "Nombre", obra.TeatroId);
             return View(obra);
         }
 
         // POST: Obras/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Descripcion,TeatroId")] Obra obra)
         {
-            if (id != obra.Id)
-            {
-                return NotFound();
-            }
+            if (id != obra.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -107,36 +100,23 @@ namespace TEATRO.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ObraExists(obra.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!ObraExists(obra.Id)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TeatroId"] = new SelectList(_context.Teatros, "Id", "Id", obra.TeatroId);
+
+            ViewData["TeatroId"] = new SelectList(_context.Teatros, "Id", "Nombre", obra.TeatroId);
             return View(obra);
         }
 
         // GET: Obras/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var obra = await _context.Obras
-                .Include(o => o.Teatro)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (obra == null)
-            {
-                return NotFound();
-            }
+            var obra = await _context.Obras.Include(o => o.Teatro).FirstOrDefaultAsync(m => m.Id == id);
+            if (obra == null) return NotFound();
 
             return View(obra);
         }

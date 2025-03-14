@@ -1,53 +1,61 @@
 ﻿@model IEnumerable<TEATRO.Models.Aciento>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Gestión de Asientos";
 }
 
-<h1>Index</h1>
+<h1 class="text-center text-light">🪑 Gestión de Asientos</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Numero)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fila)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Zona)
-            </th>
-            <th></th>
+<!-- 🔙 Botón para volver al Panel de Administración -->
+<div class="text-start mb-3">
+    <a asp-controller="AdministradorDashboard" asp-action="Index" class="btn btn-secondary">
+        🔙 Volver al Panel de Administración
+    </a>
+</div>
+
+<!-- ➕ Botón para crear un nuevo asiento -->
+<div class="text-end mb-3">
+    <a asp-action="Create" class="btn btn-success">
+        ➕ Crear Nuevo Asiento
+    </a>
+</div>
+
+<!-- Tabla de asientos -->
+<table class="table table-dark table-striped table-hover shadow rounded-3">
+    <thead class="thead-light">
+        <tr class="text-center">
+            <th>@Html.DisplayNameFor(model => model.Numero)</th>
+            <th>@Html.DisplayNameFor(model => model.Fila)</th>
+            <th>@Html.DisplayNameFor(model => model.Estado)</th>
+            <th>@Html.DisplayNameFor(model => model.Zona)</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Numero)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fila)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Zona)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr class="text-center">
+                <td>@Html.DisplayFor(modelItem => item.Numero)</td>
+                <td>@Html.DisplayFor(modelItem => item.Fila)</td>
+                <td>
+                    @if (item.Estado == "Disponible")
+                    {
+                        <span class="badge bg-success">Disponible</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Ocupado</span>
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Zona)</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">✏️ Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">🔍 Detalles</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">🗑️ Eliminar</a>
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

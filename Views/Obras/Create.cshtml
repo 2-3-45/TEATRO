@@ -1,42 +1,58 @@
 ﻿@model TEATRO.Models.Obra
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Nueva Obra";
 }
 
-<h1>Create</h1>
+<h2 class="text-center text-primary">Crear Nueva Obra</h2>
 
-<h4>Obra</h4>
-<hr />
+<!-- 🔴 Mostrar error si ocurre algún problema durante el guardado -->
+@if (ViewData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @ViewData["Error"]
+    </div>
+}
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6 offset-md-3">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <!-- 🔹 TÍTULO -->
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
-                <input asp-for="Titulo" class="form-control" />
+                <input asp-for="Titulo" class="form-control" placeholder="Ingrese el título de la obra" />
                 <span asp-validation-for="Titulo" class="text-danger"></span>
             </div>
+
+            <!-- 🔹 DESCRIPCIÓN -->
             <div class="form-group">
                 <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
+                <textarea asp-for="Descripcion" class="form-control" placeholder="Ingrese la descripción de la obra"></textarea>
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
+
+            <!-- 🔹 TEATRO SELECCIONADO -->
             <div class="form-group">
                 <label asp-for="TeatroId" class="control-label"></label>
-                <select asp-for="TeatroId" class ="form-control" asp-items="ViewBag.TeatroId"></select>
+                <select asp-for="TeatroId" class="form-control" asp-items="ViewBag.TeatroId">
+                    <option value="" selected disabled>Seleccione un teatro...</option> <!-- ✅ Opción predeterminada -->
+                </select>
+                <span asp-validation-for="TeatroId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <!-- 🔹 BOTONES DE ACCIÓN -->
+            <div class="form-group mt-3">
+                <input type="submit" value="Crear" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; // <-- Agrega esta librería
 
 namespace TEATRO.Models
 {
@@ -17,6 +18,7 @@ namespace TEATRO.Models
 
         [Required(ErrorMessage = "El precio es obligatorio.")]
         [Range(1, double.MaxValue, ErrorMessage = "El precio debe ser mayor a 0.")]
+        [Column(TypeName = "decimal(18, 2)")]  // 🔹 Definición explícita de precisión
         public decimal Precio { get; set; }
 
         [Required(ErrorMessage = "La imagen es obligatoria.")]

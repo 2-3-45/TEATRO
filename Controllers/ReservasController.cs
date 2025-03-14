@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TEATRO.Data;
 using TEATRO.Models;
 
-namespace TEATRO.Controllers
+namespace ProyectoProgramado_1.Controllers
 {
     public class ReservasController : Controller
     {
