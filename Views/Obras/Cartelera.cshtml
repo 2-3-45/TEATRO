@@ -1,0 +1,47 @@
+﻿@model IEnumerable<TEATRO.Models.Obra>
+
+@{
+    ViewData["Title"] = "Cartelera de Obras";
+}
+
+<h1 class="text-center text-warning my-4">
+    🎭 <strong>Cartelera de Obras</strong>
+</h1>
+
+<!-- 🔎 Mostrar error en caso de no haber obras disponibles -->
+@if (!Model.Any())
+{
+    <div class="alert alert-warning text-center">
+        ❗ No hay obras disponibles actualmente.
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var obra in Model)
+        {
+            <div class="col">
+                <div class="card shadow-lg border-0 bg-light rounded-4">
+                    <div class="card-body">
+                        <h4 class="card-title text-center text-dark fw-bold">@obra.Titulo</h4>
+                        <hr class="mb-3">
+                        <p class="card-text"><strong>Descripción:</strong> @obra.Descripcion</p>
+                        <p class="card-text"><strong>Teatro:</strong> @obra.Teatro.Nombre</p>
+
+                        <div class="d-flex justify-content-center gap-2 mt-3">
+                            <a asp-action="DetallesObra" asp-route-id="@obra.Id"
+                               class="btn btn-primary btn-sm">
+                                🔍 Ver Detalles
+                            </a>
+
+                            <a asp-action="SeleccionarAsiento" asp-route-id="@obra.Id"
+                               class="btn btn-success btn-sm">
+                                🪑 Seleccionar Asiento
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -25,38 +25,56 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
 
-                        <!-- 🔹 Enlaces comunes para todos -->
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Home" asp-action="Index">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="" asp-action="Index">Cartelera</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="" asp-action="Index">Reservas</a>
-                        </li>
+                        <ul class="navbar-nav flex-grow-1">
 
+                            <!-- 🔹 Enlaces comunes para todos -->
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Home" asp-action="Index">
+                                    🏠 <strong>Inicio</strong>
+                                </a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="" asp-action="Index">Acientos</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Usuarios" asp-action="Index">
+                                    👥 <strong>Usuarios</strong>
+                                </a>
+                            </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link text-warning fw-bold" asp-controller="Obras" asp-action="Cartelera">
+                                    🎭 <strong>Cartelera</strong>
+                                </a>
+                            </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link text-info" asp-controller="Reservas" asp-action="MisReservas">
+                                    📋 <strong>MisReservas</strong>
+                                </a>
+                            </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link text-success" asp-controller="Asientos" asp-action="Ubicaciones">
+                                    🪑 <strong>Ubicaciones</strong>
+                                </a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="" asp-action="Index">Pagos</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" asp-controller="Pagos" asp-action="Facturacion">
+                                    💳 <strong>Facturacion</strong>
+                                </a>
+                            </li>
 
+                            <!-- 🔹 Espaciado flexible para empujar el botón a la derecha -->
+                            <li class="flex-grow-1"></li>
 
+                            <!-- 🚪 Botón de Cerrar Sesión -->
+                            <li class="nav-item">
+                                <a class="btn btn-outline-danger" asp-controller="Usuarios" asp-action="Logout">
+                                    🚪 <strong>Cerrar Sesión</strong>
+                                </a>
+                            </li>
 
-                      
-                     
-
-
+                        </ul>
 
 
 

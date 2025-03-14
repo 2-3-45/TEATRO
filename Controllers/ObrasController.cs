@@ -19,6 +19,44 @@ namespace ProyectoProgramado_1.Controllers
             _context = context;
         }
 
+        // ================================
+        // 🔹 Mostrar Cartelera (Para Comprador)
+        // ================================
+        public async Task<IActionResult> Cartelera()
+        {
+            var obras = await _context.Obras
+                .Include(o => o.Teatro)
+                .ToListAsync();
+
+            return View(obras); // Vista: Cartelera
+        }
+
+        // ================================
+        // 🔹 Mostrar Detalles de la Obra (Para Comprador)
+        // ================================
+        public async Task<IActionResult> DetallesObra(int id)
+        {
+            var obra = await _context.Obras
+                .Include(o => o.Teatro)
+                .FirstOrDefaultAsync(o => o.Id == id);
+
+            if (obra == null) return NotFound();
+
+            return View(obra); // Vista: DetallesObra
+        }
+
+        // ================================
+        // 🔹 Redirigir a la Selección de Asiento
+        // ================================
+        public IActionResult SeleccionarAsiento(int id)
+        {
+            return RedirectToAction("SeleccionarAsiento", "Asientos", new { obraId = id });
+        }
+
+        // ================================
+        // 🔹 Métodos de Administración (CRUD para el Administrador)
+        // ================================
+
         // GET: Obras
         public async Task<IActionResult> Index()
         {
@@ -31,7 +69,9 @@ namespace ProyectoProgramado_1.Controllers
         {
             if (id == null) return NotFound();
 
-            var obra = await _context.Obras.Include(o => o.Teatro).FirstOrDefaultAsync(m => m.Id == id);
+            var obra = await _context.Obras
+                .Include(o => o.Teatro)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (obra == null) return NotFound();
 
             return View(obra);
@@ -49,7 +89,7 @@ namespace ProyectoProgramado_1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Titulo,Descripcion,TeatroId")] Obra obra)
         {
-            if (ModelState.IsValid) // ✅ Cambio en la validación para corregir el flujo
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -70,7 +110,6 @@ namespace ProyectoProgramado_1.Controllers
             ViewData["TeatroId"] = new SelectList(_context.Teatros, "Id", "Nombre", obra.TeatroId);
             return View(obra);
         }
-
 
         // GET: Obras/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -115,7 +154,9 @@ namespace ProyectoProgramado_1.Controllers
         {
             if (id == null) return NotFound();
 
-            var obra = await _context.Obras.Include(o => o.Teatro).FirstOrDefaultAsync(m => m.Id == id);
+            var obra = await _context.Obras
+                .Include(o => o.Teatro)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (obra == null) return NotFound();
 
             return View(obra);
