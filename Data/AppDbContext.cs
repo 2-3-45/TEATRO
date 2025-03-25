@@ -19,5 +19,10 @@ namespace TEATRO.Data
         // 🔹 Agregando las nuevas tablas
         public DbSet<Aciento> Aciento { get; set; } = default!;
         public DbSet<Producto> Productos { get; set; } = default!;
+
+        // 🔹 Nuevas entidades para facturación
+        public DbSet<Factura> Facturas { get; set; } = default!;
+        public DbSet<Entrada> Entradas { get; set; } = default!;
     }
 }
+

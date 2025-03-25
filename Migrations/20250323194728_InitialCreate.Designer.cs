@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TEATRO.Data;
 
@@ -11,9 +12,11 @@ using TEATRO.Data;
 namespace TEATRO.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250323194728_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,63 +51,6 @@ namespace TEATRO.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Aciento");
-                });
-
-            modelBuilder.Entity("TEATRO.Models.Entrada", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Cantidad")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("FacturaId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("PrecioUnitario")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FacturaId");
-
-                    b.ToTable("Entradas");
-                });
-
-            modelBuilder.Entity("TEATRO.Models.Factura", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EventoId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MetodoPago")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Facturas");
                 });
 
             modelBuilder.Entity("TEATRO.Models.Obra", b =>
@@ -284,13 +230,6 @@ namespace TEATRO.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("TEATRO.Models.Entrada", b =>
-                {
-                    b.HasOne("TEATRO.Models.Factura", null)
-                        .WithMany("Entradas")
-                        .HasForeignKey("FacturaId");
-                });
-
             modelBuilder.Entity("TEATRO.Models.Obra", b =>
                 {
                     b.HasOne("TEATRO.Models.Teatro", "Teatro")
@@ -300,11 +239,6 @@ namespace TEATRO.Migrations
                         .IsRequired();
 
                     b.Navigation("Teatro");
-                });
-
-            modelBuilder.Entity("TEATRO.Models.Factura", b =>
-                {
-                    b.Navigation("Entradas");
                 });
 #pragma warning restore 612, 618
         }

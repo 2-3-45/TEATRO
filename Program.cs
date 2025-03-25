@@ -29,7 +29,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Agregar controladores con vistas
+// Agregar controladores con vistas (MVC)
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -48,15 +48,16 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// 🔥 Orden correcto del Middleware para Autenticación/Autorización
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// ===============================
-// Configuración de Rutas
-// ===============================
+// Registrar endpoints de los controladores API (por ejemplo, FacturasController)
+app.MapControllers();
 
+// ===============================
+// Configuración de Rutas (MVC)
+// ===============================
 const string DefaultController = "Home";
 const string DefaultAction = "Index";
 
@@ -66,13 +67,11 @@ app.MapControllerRoute(
     pattern: "{controller=" + DefaultController + "}/{action=" + DefaultAction + "}/{id?}"
 );
 
-
 app.MapControllerRoute(
     name: "usuarios",
     pattern: "Usuarios/{action=Create}/{id?}",
     defaults: new { controller = "Usuarios", action = "Create" }
 );
-
 
 // Ruta del Panel de Administración (protegida por política de autorización)
 app.MapControllerRoute(
@@ -81,18 +80,11 @@ app.MapControllerRoute(
     defaults: new { controller = "AdministradorDashboard" }
 ).RequireAuthorization("AdminPolicy");
 
-
-
-
 app.MapControllerRoute(
     name: "productos",
     pattern: "Productos/{action=Index}/{id?}",
     defaults: new { controller = "Productos" }
 );
-
-
-
-
 
 // Ruta para manejar errores personalizados
 app.MapControllerRoute(
@@ -101,7 +93,6 @@ app.MapControllerRoute(
     defaults: new { controller = "Home", action = "Error" }
 );
 
-
-
 app.Run();
+
 
