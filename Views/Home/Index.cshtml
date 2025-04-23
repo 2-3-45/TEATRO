@@ -3,6 +3,62 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">BIENVENIDOS AL TEATRO MAGICO</h1>
-   
+    <!-- Título principal -->
+    <h1 class="display-4 mb-5">BIENVENIDOS AL TEATRO MÁGICO</h1>
+
+    <!-- Carrusel más grande -->
+    <div id="carouselTeatro" class="carousel slide mb-5" data-bs-ride="carousel" style="max-width: 1000px; margin: 0 auto;">
+        <div class="carousel-inner" style="height: 500px;">
+            <div class="carousel-item active">
+                <img src="~/Imagenes/bollywood-1687410_640.jpg" class="d-block w-100 h-100" style="object-fit: contain;" alt="Escenario teatral">
+            </div>
+            <div class="carousel-item">
+                <img src="~/Imagenes/surprise-5321849_640.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Obra 2">
+            </div>
+            <div class="carousel-item">
+                <img src="~/Imagenes/istockphoto-1972388588-1024x1024.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Obra 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselTeatro" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselTeatro" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <!-- Cartelera de obras -->
+    <div class="container">
+        <h2 class="mb-4">Cartelera Actual</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+
+            <div class="col">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">El Oráculo de Medianoche</h5>
+                        <p class="card-text">Cinco extraños son convocados a un antiguo teatro durante la luna llena para presenciar un enigmático espectáculo donde lo real y lo sobrenatural se entrelazan en un ritual ancestral.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">El Bosque Encantado</h5>
+                        <p class="card-text">Una aventura mágica donde los niños conocerán a hadas, duendes y animales parlantes. Con trucos de magia en vivo y participación del público, ideal para pequeños de 4 a 10 años.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Encuentros Bajo la Lluvia</h5>
+                        <p class="card-text">Una historia de amor que transcurre entre paraguas, cafés y casualidades, donde cada gota de lluvia parece escribir un nuevo destino.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>

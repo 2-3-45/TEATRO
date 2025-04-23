@@ -22,7 +22,53 @@ namespace TEATRO.Controllers
         // GET: Acientoes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Aciento.ToListAsync());
+            var asientos = await _context.Aciento.ToListAsync();
+
+            // Ordenar los asientos de la fila 1 a la 10 de manera estricta
+            var asientosPorFila = asientos
+                .OrderBy(a => ParsearFila(a.Fila))
+                .ThenBy(a => a.Numero)
+                .GroupBy(a => a.Fila)
+                .ToList();
+
+            return View(asientosPorFila);
+        }
+
+        // Método para parsear filas, asegurando orden de 1 a 10
+        private int ParsearFila(string fila)
+        {
+            // Intenta convertir a número, priorizando filas de 1 a 10
+            if (int.TryParse(fila, out int numero))
+            {
+                // Asegura que solo los números del 1 al 10 se ordenen primero
+                return numero >= 1 && numero <= 10 ? numero : int.MaxValue;
+            }
+
+            // Cualquier otra fila (no numérica o fuera del rango 1-10) se coloca al final
+            return int.MaxValue;
+        }
+
+
+        //Metodo para reservar asientos
+        [HttpPost]
+        public async Task<IActionResult> Reservar(List<int> asientosSeleccionados)
+        {
+            if (asientosSeleccionados != null && asientosSeleccionados.Any())
+            {
+                var asientos = await _context.Aciento
+                    .Where(a => asientosSeleccionados.Contains(a.Id))
+                    .ToListAsync();
+
+                foreach (var asiento in asientos)
+                {
+                    asiento.Estado = "Ocupado";  // Cambiamos el estado a "Ocupado"
+                    _context.Update(asiento);
+                }
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Acientoes/Details/5

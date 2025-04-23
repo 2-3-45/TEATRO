@@ -1,61 +1,81 @@
-﻿@model IEnumerable<TEATRO.Models.Aciento>
+﻿@model IEnumerable<IGrouping<string, TEATRO.Models.Aciento>>
 
 @{
-    ViewData["Title"] = "Gestión de Asientos";
+    ViewData["Title"] = "Seleccionar Asientos";
 }
 
-<h1 class="text-center text-light">🪑 Gestión de Asientos</h1>
+<h1 class="text-center text-light mb-4">Seleccionar Asientos</h1>
 
-<!-- 🔙 Botón para volver al Panel de Administración -->
-<div class="text-start mb-3">
-    <a asp-controller="AdministradorDashboard" asp-action="Index" class="btn btn-secondary">
-        🔙 Volver al Panel de Administración
-    </a>
-</div>
-
-<!-- ➕ Botón para crear un nuevo asiento -->
-<div class="text-end mb-3">
-    <a asp-action="Create" class="btn btn-success">
-        ➕ Crear Nuevo Asiento
-    </a>
-</div>
-
-<!-- Tabla de asientos -->
-<table class="table table-dark table-striped table-hover shadow rounded-3">
-    <thead class="thead-light">
-        <tr class="text-center">
-            <th>@Html.DisplayNameFor(model => model.Numero)</th>
-            <th>@Html.DisplayNameFor(model => model.Fila)</th>
-            <th>@Html.DisplayNameFor(model => model.Estado)</th>
-            <th>@Html.DisplayNameFor(model => model.Zona)</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+<!-- Formulario para reservar asientos -->
+<form method="post" asp-action="Reservar">
+    <div class="container mb-4">
+        @foreach (var fila in Model)
         {
-            <tr class="text-center">
-                <td>@Html.DisplayFor(modelItem => item.Numero)</td>
-                <td>@Html.DisplayFor(modelItem => item.Fila)</td>
-                <td>
-                    @if (item.Estado == "Disponible")
+            <div class="mb-4">
+                <h3 class="text-light mb-3">@fila.Key</h3>
+                <div class="d-flex justify-content-center flex-wrap">
+                    @foreach (var asiento in fila)
                     {
-                        <span class="badge bg-success">Disponible</span>
+                        <div class="m-2">
+                            <div class="text-center">
+                                <!-- Input checkbox para seleccionar asiento -->
+                                <input class="form-check-input visually-hidden"
+                                       type="checkbox"
+                                       name="asientosSeleccionados"
+                                       value="@asiento.Id"
+                                       id="asiento_@asiento.Id"
+                                @(asiento.Estado == "Ocupado" ? "disabled" : "")
+                                       onclick="toggleSelection(this, '@asiento.Id')" />
+                                <label class="form-check-label btn btn-lg
+                                            @(asiento.Estado == "Ocupado" ? "btn-danger" : "btn-success")
+                                            text-white shadow-sm"
+                                       for="asiento_@asiento.Id"
+                                       id="label_@asiento.Id">
+                                    @asiento.Numero
+                                </label>
+                            </div>
+                        </div>
                     }
-                    else
-                    {
-                        <span class="badge bg-danger">Ocupado</span>
-                    }
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Zona)</td>
-                <td>
-                    <div class="btn-group" role="group">
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">✏️ Editar</a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">🔍 Detalles</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">🗑️ Eliminar</a>
-                    </div>
-                </td>
-            </tr>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+
+    <!-- Botón para confirmar la reserva -->
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary btn-lg px-5">Confirmar Reserva</button>
+    </div>
+</form>
+
+<!-- Botón para reiniciar selección -->
+<div class="text-center mt-3">
+    <button type="button" class="btn btn-secondary btn-lg" onclick="resetSelection()">Reiniciar Selección</button>
+</div>
+
+<!-- JavaScript para cambiar color y manejar selección -->
+<script>
+    // Al hacer clic en un asiento, cambiar su color
+    function toggleSelection(checkbox, id) {
+        var label = document.getElementById('label_' + id);
+
+        if (checkbox.checked) {
+            label.classList.remove('btn-success');
+            label.classList.add('btn-warning'); // Cambia a color de selección (amarillo)
+        } else {
+            label.classList.remove('btn-warning');
+            label.classList.add('btn-success'); // Vuelve al color de disponible (verde)
+        }
+    }
+
+    // Reiniciar todas las selecciones
+    function resetSelection() {
+        // Desmarcar todos los checkboxes
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = false;
+            var label = document.getElementById('label_' + checkbox.value);
+            label.classList.remove('btn-warning');
+            label.classList.add('btn-success'); // Vuelve al color de disponible (verde)
+        });
+    }
+</script>
